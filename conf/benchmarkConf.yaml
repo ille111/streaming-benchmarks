@@ -9,12 +9,12 @@ zookeeper.servers:
 
 kafka.port: 9092
 zookeeper.port: 2181
-redis.host: "localhost"
+redis.host: "10.10.1.1"
 kafka.topic: "ad-events"
 kafka.partitions: 1
 
 process.hosts: 1
-process.cores: 4
+process.cores: 1
 
 #STORM Specific
 storm.workers: 1

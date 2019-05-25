@@ -23,7 +23,8 @@ APEX_VERSION=${APEX_VERSION:-"3.4.0"}
 STORM_DIR="apache-storm-$STORM_VERSION"
 REDIS_DIR="redis-$REDIS_VERSION"
 KAFKA_DIR="kafka_$SCALA_BIN_VERSION-$KAFKA_VERSION"
-FLINK_DIR="flink-$FLINK_VERSION"
+#FLINK_DIR="flink-$FLINK_VERSION"
+FLINK_DIR="/home/user/master_thesis/IoT_Testing_Framework/experiments/Flink"
 SPARK_DIR="spark-$SPARK_VERSION-bin-hadoop2.7"
 APEX_DIR="apex-$APEX_VERSION"
 
@@ -37,7 +38,8 @@ TOPIC=${TOPIC:-"ad-events"}
 PARTITIONS=${PARTITIONS:-1}
 LOAD=${LOAD:-1000}
 CONF_FILE=./conf/localConf.yaml
-TEST_TIME=${TEST_TIME:-240}
+LOAD_CONF=./conf/benchmarkConf.yaml
+TEST_TIME=${TEST_TIME:-60}
 
 pid_match() {
    local VAL=`ps -aef | grep "$1" | grep -v grep | awk '{print $2}'`
@@ -132,12 +134,12 @@ run() {
 	echo 'kafka.topic: "'$TOPIC'"' >> $CONF_FILE
 	echo 'kafka.partitions: '$PARTITIONS >> $CONF_FILE
 	echo 'process.hosts: 1' >> $CONF_FILE
-	echo 'process.cores: 4' >> $CONF_FILE
+	echo 'process.cores: 1' >> $CONF_FILE
 	echo 'storm.workers: 1' >> $CONF_FILE
 	echo 'storm.ackers: 2' >> $CONF_FILE
 	echo 'spark.batchtime: 2000' >> $CONF_FILE
-	
-    $MVN clean install -Dspark.version="$SPARK_VERSION" -Dkafka.version="$KAFKA_VERSION" -Dflink.version="$FLINK_VERSION" -Dstorm.version="$STORM_VERSION" -Dscala.binary.version="$SCALA_BIN_VERSION" -Dscala.version="$SCALA_BIN_VERSION.$SCALA_SUB_VERSION" -Dapex.version="$APEX_VERSION"
+
+    $MVN clean install -Dspark.version="$SPARK_VERSION" -Dkafka.version="$KAFKA_VERSION" -Dflink.version="$FLINK_VERSION" -Dstorm.version="$STORM_VERSION" -Dscala.binary.version="$SCALA_BIN_VERSION" -Dscala.version="$SCALA_BIN_VERSION.$SCALA_SUB_VERSION"
 
     #Fetch and build Redis
     REDIS_FILE="$REDIS_DIR.tar.gz"
@@ -148,11 +150,11 @@ run() {
     cd ..
 
     #Fetch Apex
-    APEX_FILE="$APEX_DIR.tgz.gz"
-    fetch_untar_file "$APEX_FILE" "$APACHE_MIRROR/apex/apache-apex-core-$APEX_VERSION/apex-$APEX_VERSION-source-release.tar.gz"
-    cd $APEX_DIR
-    $MVN clean install -DskipTests
-    cd ..
+    # APEX_FILE="$APEX_DIR.tgz.gz"
+    # fetch_untar_file "$APEX_FILE" "$APACHE_MIRROR/apex/apache-apex-core-$APEX_VERSION/apex-$APEX_VERSION-source-release.tar.gz"
+    # cd $APEX_DIR
+    # $MVN clean install -DskipTests
+    # cd ..
 
     #Fetch Kafka
     KAFKA_FILE="$KAFKA_DIR.tgz"
@@ -179,7 +181,7 @@ run() {
     rm -rf /tmp/dev-storm-zookeeper
   elif [ "START_REDIS" = "$OPERATION" ];
   then
-    start_if_needed redis-server Redis 1 "$REDIS_DIR/src/redis-server"
+    start_if_needed redis-server Redis 1 "$REDIS_DIR/src/redis-server" "$REDIS_DIR/redis.conf"
     cd data
     $LEIN run -n --configPath ../conf/benchmarkConf.yaml
     cd ..
@@ -226,7 +228,7 @@ run() {
   elif [ "START_LOAD" = "$OPERATION" ];
   then
     cd data
-    start_if_needed leiningen.core.main "Load Generation" 1 $LEIN run -r -t $LOAD --configPath ../$CONF_FILE
+    start_if_needed leiningen.core.main "Load Generation" 1 $LEIN run -r -t $LOAD --configPath ../$LOAD_CONF
     cd ..
   elif [ "STOP_LOAD" = "$OPERATION" ];
   then
@@ -377,7 +379,7 @@ run() {
     echo "STOP_SPARK: kill spark processes"
     echo "START_APEX: run the Apex test processing"
     echo "STOP_APEX: kill the Apex test processing"
-    echo 
+    echo
     echo "START_STORM_TOPOLOGY: run the storm test topology"
     echo "STOP_STORM_TOPOLOGY: kill the storm test topology"
     echo "START_FLINK_PROCESSING: run the flink test processing"

@@ -1,0 +1,14 @@
+OpenJDK 64-Bit Server VM (25.212-b01) for linux-amd64 JRE (1.8.0_212-b01), built on Mar 21 2019 23:20:35 by "builduser" with gcc 8.2.1 20181127
+Memory: 4k page, physical 16361836k(13555404k free), swap 8388604k(8388604k free)
+CommandLine flags: -XX:+CMSClassUnloadingEnabled -XX:+CMSScavengeBeforeRemark -XX:+DisableExplicitGC -XX:InitialHeapSize=1073741824 -XX:+ManagementServer -XX:MaxHeapSize=1073741824 -XX:MaxNewSize=357916672 -XX:MaxTenuringThreshold=6 -XX:NewSize=357916672 -XX:OldPLABSize=16 -XX:OldSize=715825152 -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseConcMarkSweepGC -XX:+UseParNewGC 
+2019-05-25T12:40:43.784+0200: 101.331: [GC (Allocation Failure) 2019-05-25T12:40:43.784+0200: 101.331: [ParNew: 279616K->11508K(314560K), 0.0285018 secs] 279616K->11508K(1013632K), 0.0287264 secs] [Times: user=0.09 sys=0.02, real=0.02 secs] 
+2019-05-25T12:41:20.994+0200: 138.541: [GC (Allocation Failure) 2019-05-25T12:41:20.994+0200: 138.541: [ParNew: 291124K->5260K(314560K), 0.0097507 secs] 291124K->5260K(1013632K), 0.0099293 secs] [Times: user=0.07 sys=0.01, real=0.01 secs] 
+2019-05-25T12:42:07.624+0200: 185.171: [GC (Allocation Failure) 2019-05-25T12:42:07.624+0200: 185.171: [ParNew: 284876K->4983K(314560K), 0.0083988 secs] 284876K->4983K(1013632K), 0.0086031 secs] [Times: user=0.06 sys=0.00, real=0.00 secs] 
+Heap
+ par new generation   total 314560K, used 199975K [0x00000000c0000000, 0x00000000d5550000, 0x00000000d5550000)
+  eden space 279616K,  69% used [0x00000000c0000000, 0x00000000cbe6c090, 0x00000000d1110000)
+  from space 34944K,  14% used [0x00000000d3330000, 0x00000000d380dde0, 0x00000000d5550000)
+  to   space 34944K,   0% used [0x00000000d1110000, 0x00000000d1110000, 0x00000000d3330000)
+ concurrent mark-sweep generation total 699072K, used 0K [0x00000000d5550000, 0x0000000100000000, 0x0000000100000000)
+ Metaspace       used 20516K, capacity 20638K, committed 20736K, reserved 1067008K
+  class space    used 2982K, capacity 3043K, committed 3072K, reserved 1048576K
