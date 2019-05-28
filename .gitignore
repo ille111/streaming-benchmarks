@@ -10,3 +10,6 @@ download-cache
 .project
 .settings
 bin
+kafka_2.11-0.8.2.1/logs/*
+data/seen.txt
+data/updated.txt
